@@ -23,12 +23,18 @@ def record_upstream(root, ref):
     readme = subprocess.run(["git", "show", f"{commit}:README.md"], cwd=root,
                             check=True, capture_output=True).stdout
     provenance = {"repository": UPSTREAM, "branch": "main", "commit": commit, "commit_date": commit_date}
-    path = Path(root) / "pd/upstream.json"
-    path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(json.dumps(provenance, indent=2) + "\n", encoding="utf-8", newline="\n")
-    archive = Path(root) / "docs/upstream/README.md"
-    archive.parent.mkdir(parents=True, exist_ok=True)
-    archive.write_bytes(readme)
+    files = {
+        "pd/upstream.json": (json.dumps(provenance, indent=2) + "\n").encode("utf-8"),
+        "docs/upstream/README.md": readme,
+    }
+    for name, data in files.items():
+        path = Path(root) / name
+        # A Windows checkout may contain CRLF. Rewriting identical LF text marks it
+        # dirty until git add normalizes it, causing false updates and empty commits.
+        if path.exists() and path.read_bytes().replace(b"\r\n", b"\n") == data.replace(b"\r\n", b"\n"):
+            continue
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_bytes(data)
 
 
 def prepare(root, ref="upstream/main"):

@@ -84,6 +84,21 @@ class SyncTests(unittest.TestCase):
         self.assertFalse(self.prepare())
         self.assertEqual("", self.git("status", "--porcelain"))
 
+    def test_windows_checkout_line_endings_do_not_create_false_updates(self):
+        self.prepare()
+        self.commit("record initial provenance")
+        self.git("config", "core.autocrlf", "true")
+        # Force a real Windows-style checkout even when this test runs on macOS/Linux.
+        for name in self.git("ls-files").splitlines():
+            (self.root / name).unlink()
+        self.git("checkout-index", "--all", "--force")
+        self.git("add", "--all")
+        self.git("diff", "--cached", "--quiet")
+        self.assertIn(b"\r\n", (self.root / "pd/upstream.json").read_bytes())
+        self.assertEqual("", self.git("status", "--porcelain"))
+        self.assertFalse(self.prepare())
+        self.assertEqual("", self.git("status", "--porcelain"))
+
     def test_readme_conflict_uses_template_and_archives_upstream(self):
         self.upstream_change("README.md", "# Improved upstream README\nNew setup guidance\n")
         self.prepare()
