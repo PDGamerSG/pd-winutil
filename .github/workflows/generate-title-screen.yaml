@@ -121,7 +121,7 @@ jobs:
               Start-Sleep -Seconds 2
               # A versioned title excludes the unversioned console host.
               $window = Get-Process |
-                  Where-Object { $_.MainWindowTitle -match '^WinUtil\s+\d' } |
+                  Where-Object { $_.MainWindowTitle -match '^(?:WinUtil|Pallab Das Windows Utility)\s+\d' } |
                   Select-Object -First 1
           } until ($window -or (Get-Date) -ge $deadline)
 

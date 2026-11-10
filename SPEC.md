@@ -124,3 +124,14 @@ Because the final script is concatenated, code cannot rely on runtime module imp
 ## Release Artifact
 
 GitHub Actions is responsible for producing the release `winutil.ps1` from repository sources. A release is considered valid only if the generated script came from the compile process, not from direct manual edits to `winutil.ps1`.
+
+## Pallab Das Fork
+
+- This copy is maintained as `PDGamerSG/pd-winutil`, an independent fork of `ChrisTitusTech/winutil`.
+- `pd/apply_branding.py` reapplies the PD terminal/application logo, product identity and fork launch URLs after an upstream merge. It preserves internal WinUtil interfaces and upstream attribution.
+- The root README is generated from `pd/README.template.md`; change the template, then apply branding.
+- `pd/sync_upstream.py` prepares a normal Git merge, records `pd/upstream.json`, and archives the original README in `docs/upstream/README.md`. Source conflicts abort the merge.
+- `.github/workflows/pd-update.yml` tests, compiles and verifies candidates on Windows before updating main and publishing unsigned releases. Copied upstream maintenance workflows are disabled on this fork.
+- `pd/Verify-PDWinUtil.ps1` checks the generated artifact and can render its WPF logo on Windows without launching Windows system operations.
+- Python 3.10+ is a maintenance dependency only; no Python dependency is introduced into the Windows release.
+- See `docs/PD-MAINTENANCE.md` for the update schedule, conflict recovery and future repository integration.

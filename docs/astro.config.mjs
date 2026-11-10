@@ -10,7 +10,7 @@ export default defineConfig({
 	integrations: [
 		starlight({
 			title: 'WinUtil',
-			description: "Chris Titus Tech's Windows Utility — install apps, apply tweaks, run fixes, and manage Windows from one place.",
+			description: "Pallab Das Windows Utility — install apps, apply tweaks, run fixes, and manage Windows from one place.",
 			logo: {
 				src: './src/assets/branding/navlogo.png',
 				replacesTitle: true,
@@ -23,7 +23,7 @@ export default defineConfig({
 				{ tag: 'meta', attrs: { name: 'twitter:image', content: 'https://winutil.christitus.com/social-preview.png' } },
 			],
 			social: [
-				{ icon: 'github', label: 'GitHub', href: 'https://github.com/ChrisTitusTech/winutil' },
+				{ icon: 'github', label: 'GitHub', href: 'https://github.com/PDGamerSG/pd-winutil' },
 				{ icon: 'discord', label: 'Discord', href: 'https://discord.gg/RUbZUZyByQ' },
 			],
 			// Global theme overrides (colors, fonts, landing-page section styles).
@@ -43,7 +43,7 @@ export default defineConfig({
 				ThemeSelect: './src/components/overrides/ThemeSelect.astro',
 			},
 			editLink: {
-				baseUrl: 'https://github.com/ChrisTitusTech/winutil/edit/main/docs/',
+				baseUrl: 'https://github.com/PDGamerSG/pd-winutil/edit/main/docs/',
 			},
 			// Sidebar groups, top to bottom: User Guide, Code Reference, Help, Tools.
 			sidebar: [

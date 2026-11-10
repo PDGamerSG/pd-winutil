@@ -447,11 +447,12 @@ function Start-WinUtilUserInterface {
         Invoke-WPFPopup -Action "Hide" -Popups @("Settings")
 
         $authorInfo = @"
-Author   : <a href="https://github.com/ChrisTitusTech">@ChrisTitusTech</a>
+Maintainer : <a href="https://github.com/PDGamerSG">Pallab Das (@PDGamerSG)</a>
+Upstream   : <a href="https://github.com/ChrisTitusTech/winutil">Chris Titus Tech / WinUtil (MIT)</a>
 UI       : <a href="https://github.com/MyDrift-user">@MyDrift-user</a>, <a href="https://github.com/Marterich">@Marterich</a>
 Runspace : <a href="https://github.com/DeveloperDurp">@DeveloperDurp</a>, <a href="https://github.com/Marterich">@Marterich</a>
-GitHub   : <a href="https://github.com/ChrisTitusTech/winutil">ChrisTitusTech/winutil</a>
-Version  : <a href="https://github.com/ChrisTitusTech/winutil/releases/tag/$($sync.version)">$($sync.version)</a>
+GitHub   : <a href="https://github.com/PDGamerSG/pd-winutil">PDGamerSG/pd-winutil</a>
+Version  : <a href="https://github.com/PDGamerSG/pd-winutil/releases/latest">$($sync.version)</a>
 "@
         Show-CustomDialog -Title "About" -Message $authorInfo
     })
@@ -463,7 +464,7 @@ Version  : <a href="https://github.com/ChrisTitusTech/winutil/releases/tag/$($sy
         Invoke-WPFPopup -Action "Hide" -Popups @("Settings")
 
         $authorInfo = @"
-<a href="https://github.com/sponsors/ChrisTitusTech">Current sponsors for ChrisTitusTech:</a>
+<a href="https://github.com/sponsors/ChrisTitusTech">Upstream sponsors for ChrisTitusTech:</a>
 "@
         $authorInfo += "`n"
         try {

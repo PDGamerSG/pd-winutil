@@ -1,8 +1,9 @@
 <#
 .NOTES
-    Author         : Chris Titus @christitustech
+    Maintainer     : Pallab Das @PDGamerSG
+    Upstream       : Chris Titus @christitustech (MIT)
     Runspace Author: @DeveloperDurp
-    GitHub         : https://github.com/ChrisTitusTech
+    GitHub         : https://github.com/PDGamerSG/pd-winutil
     Version        : #{replaceme}
 #>
 
@@ -169,7 +170,7 @@ if (`$launch.Headless) { `$env:WINUTIL_HEADLESS_CHILD = '1' }
 if (`$launch.ScriptPath) {
     & `$launch.ScriptPath @invokeParameters
 } else {
-    `$remoteScript = [ScriptBlock]::Create((Invoke-RestMethod 'https://github.com/ChrisTitusTech/winutil/releases/latest/download/winutil.ps1'))
+    `$remoteScript = [ScriptBlock]::Create((Invoke-RestMethod 'https://github.com/PDGamerSG/pd-winutil/releases/latest/download/winutil.ps1'))
     & `$remoteScript @invokeParameters
 }
 "@
@@ -263,5 +264,5 @@ $sync.winutildir = $winutildir
 # everything from the UI thread and the jobs.
 $sync.logPath = "$winutildir\logs\winutil_$dateTime.log"
 
-$Host.UI.RawUI.WindowTitle = "WinUtil"
+$Host.UI.RawUI.WindowTitle = "Pallab Das Windows Utility"
 Clear-Host

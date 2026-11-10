@@ -20,7 +20,7 @@ Yes, WinUtil is open source, and the code is publicly available on GitHub. Thous
 - Run it as Administrator (required)
 - Create a restore point before major changes
 - Understand what tweaks you're applying
-- Run only from the [official source](https://github.com/ChrisTitusTech/winutil/)
+- Run only from the [official source](https://github.com/PDGamerSG/pd-winutil/)
 
 ### Do I need to keep running WinUtil?
 
@@ -41,7 +41,7 @@ WinUtil is actively maintained with frequent updates. New features, bug fixes, a
 ### How do I run WinUtil?
 
 1. Open PowerShell as Administrator
-2. Run: `irm "https://christitus.com/win" | iex`
+2. Run: `irm "https://github.com/PDGamerSG/pd-winutil/releases/latest/download/winutil.ps1" | iex`
 3. Wait for the GUI to appear
 
 ### Why do I need Administrator rights?
@@ -55,14 +55,14 @@ Try these solutions in order:
 1. **Use the direct GitHub link**:
 
    ```powershell
-   irm https://github.com/ChrisTitusTech/winutil/releases/latest/download/Winutil.ps1 | iex
+   irm https://github.com/PDGamerSG/pd-winutil/releases/latest/download/winutil.ps1 | iex
    ```
 
 2. **Force TLS 1.2**:
 
    ```powershell
    [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
-   irm "https://christitus.com/win" | iex
+   irm "https://github.com/PDGamerSG/pd-winutil/releases/latest/download/winutil.ps1" | iex
    ```
 
    :::note
@@ -78,7 +78,7 @@ Run this command first to allow script execution:
 
 ```powershell
 Set-ExecutionPolicy Unrestricted -Scope Process -Force
-irm "https://christitus.com/win" | iex
+irm "https://github.com/PDGamerSG/pd-winutil/releases/latest/download/winutil.ps1" | iex
 ```
 
 This only affects the current PowerShell session and is safe.
@@ -323,5 +323,5 @@ Can't find your answer? Try these resources:
 - **[Known Issues](/knownissues/)** — Check if it's a known problem
 - **[User Guide](/guides/getting-started/)** — Comprehensive documentation
 - **[Discord Community](https://discord.gg/RUbZUZyByQ)** — Get help from other users
-- **[GitHub Issues](https://github.com/ChrisTitusTech/winutil/issues)** — Report bugs
+- **[GitHub Issues](https://github.com/PDGamerSG/pd-winutil/issues)** — Report bugs
 - **[YouTube Tutorial](https://www.youtube.com/watch?v=6UQZ5oQg8XA)** — Video walkthrough

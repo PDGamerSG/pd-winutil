@@ -1,7 +1,9 @@
 # Security Policy
 
-If you find a security issue, please post it in the Issues tab. If you think it should be private, you can email me at contact@christitus.com.
+This independent fork is maintained by [Pallab Das](https://github.com/PDGamerSG).
+Report issues affecting this fork at [PDGamerSG/pd-winutil](https://github.com/PDGamerSG/pd-winutil/issues).
+For a private report, use a contact method listed on the maintainer's GitHub profile.
+Do not include credentials or private system information in public issues.
 
-For immediate response check out our Discord server:
-
-[![](https://dcbadge.limes.pink/api/server/https://discord.gg/RUbZUZyByQ?theme=default-inverted&style=for-the-badge)](https://discord.gg/RUbZUZyByQ)
+The original [WinUtil security policy](https://github.com/ChrisTitusTech/winutil/security/policy)
+applies to the upstream project.

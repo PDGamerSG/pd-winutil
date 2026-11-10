@@ -1,7 +1,7 @@
-# Chris Titus Tech's Windows Utility
+# Pallab Das Windows Utility
 
-[![Version](https://img.shields.io/github/v/release/ChrisTitusTech/winutil?color=%230567ff&label=Latest%20Release&style=for-the-badge)](https://github.com/ChrisTitusTech/winutil/releases/latest)
-![GitHub Downloads (specific asset, all releases)](https://img.shields.io/github/downloads/ChrisTitusTech/winutil/winutil.ps1?label=Total%20Downloads&style=for-the-badge)
+[![Version](https://img.shields.io/github/v/release/PDGamerSG/pd-winutil?color=%230567ff&label=Latest%20Release&style=for-the-badge)](https://github.com/PDGamerSG/pd-winutil/releases/latest)
+![GitHub Downloads (specific asset, all releases)](https://img.shields.io/github/downloads/PDGamerSG/pd-winutil/winutil.ps1?label=Total%20Downloads&style=for-the-badge)
 [![](https://dcbadge.limes.pink/api/server/https://discord.gg/RUbZUZyByQ?theme=default-inverted&style=for-the-badge)](https://discord.gg/RUbZUZyByQ)
 [![Static Badge](https://img.shields.io/badge/Documentation-_?style=for-the-badge&logo=bookstack&color=grey)](https://winutil.christitus.com/)
 
@@ -27,12 +27,12 @@ Winutil deve essere eseguito con privilegi di amministratore, poiché apporta mo
 #### Branch stabile (Consigliato)
 
 ```ps1
-irm "https://christitus.com/win" | iex
+irm "https://github.com/PDGamerSG/pd-winutil/releases/latest/download/winutil.ps1" | iex
 ```
 #### Branch Sviluppatore
 
 ```ps1
-irm "https://christitus.com/windev" | iex
+irm "https://raw.githubusercontent.com/PDGamerSG/pd-winutil/main/windev.ps1" | iex
 ```
 
 ### Automazione
@@ -46,13 +46,13 @@ Winutil supporta anche preset predefiniti che applicano automaticamente configur
 Esempio:
 
 ```powershell
-& ([ScriptBlock]::Create((irm "https://christitus.com/win"))) -Preset Standard
+& ([ScriptBlock]::Create((irm "https://github.com/PDGamerSG/pd-winutil/releases/latest/download/winutil.ps1"))) -Preset Standard
 ```
 
 Per vedere esattamente cosa fa ogni preset, consulta:
-https://github.com/ChrisTitusTech/winutil/blob/main/config/preset.json
+https://github.com/PDGamerSG/pd-winutil/blob/main/config/preset.json
 
-In caso di problemi, consulta i [Problemi noti](https://winutil.christitus.com/knownissues/) o [Apri una segnalazione](https://github.com/ChrisTitusTech/winutil/issues)
+In caso di problemi, consulta i [Problemi noti](https://winutil.christitus.com/knownissues/) o [Apri una segnalazione](https://github.com/PDGamerSG/pd-winutil/issues)
 
 ## 🎓 Documentazione
 
@@ -71,7 +71,7 @@ Ottieni una copia del codice sorgente. Puoi farlo tramite l'interfaccia di GitHu
 
 Se git è installato, esegui i seguenti comandi in una finestra PowerShell per clonare e accedere alla directory del progetto:
 ```ps1
-git clone --depth 1 "https://github.com/ChrisTitusTech/winutil.git"
+git clone --depth 1 "https://github.com/PDGamerSG/pd-winutil.git"
 cd winutil
 ```
 
@@ -98,7 +98,7 @@ Questi sono gli sponsor che aiutano a mantenere vivo il progetto con contributi 
 ## 🏅 Grazie a tutti i collaboratori
 Un ringraziamento speciale per aver dedicato il vostro tempo ad aiutare Winutil a crescere. Grazie mille! Continuate così 🍻.
 
-[![Contributori](https://contrib.rocks/image?repo=ChrisTitusTech/winutil)](https://github.com/ChrisTitusTech/winutil/graphs/contributors)
+[![Contributori](https://contrib.rocks/image?repo=PDGamerSG/pd-winutil)](https://github.com/PDGamerSG/pd-winutil/graphs/contributors)
 
 ## 📊 Statistiche GitHub
 

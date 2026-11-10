@@ -187,7 +187,7 @@ export default function ConfigBuilder() {
 	const keys = order.filter((key) => selected.has(key));
 	const json = JSON.stringify(keys, null, 2);
 	// The catalog can stay cached across a release, so run the release that recognizes its keys.
-	const script = `https://github.com/ChrisTitusTech/winutil/releases/download/${catalog.release.tag}/winutil.ps1`;
+	const script = `https://github.com/PDGamerSG/pd-winutil/releases/download/${catalog.release.tag}/winutil.ps1`;
 	const command = `& ([ScriptBlock]::Create((irm "${script}"))) -Config "$env:USERPROFILE\\Downloads\\${fileName}"`;
 	const tab = catalog.tabs.find((candidate) => candidate.id === tabId);
 	const text = query.trim().toLowerCase();

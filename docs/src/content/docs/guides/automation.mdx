@@ -16,11 +16,11 @@ WinUtil supports predefined presets that apply common configurations automatical
 Example:
 
 ```powershell
-& ([ScriptBlock]::Create((irm "https://christitus.com/win"))) -Preset Standard
+& ([ScriptBlock]::Create((irm "https://github.com/PDGamerSG/pd-winutil/releases/latest/download/winutil.ps1"))) -Preset Standard
 ```
 
 To view exactly what each preset does, see:
-https://github.com/ChrisTitusTech/winutil/blob/main/config/preset.json
+https://github.com/PDGamerSG/pd-winutil/blob/main/config/preset.json
 
 To find a key for a custom configuration, hover over a supported application, tweak, feature, or AppX entry in WinUtil. Its tooltip shows `Preset key: <key>`. Application keys are searchable on the Install tab, while tweak and AppX keys are searchable on their respective tabs. Feature keys are available from their tooltips because the Config/Features tab does not have search. Controls that cannot be applied from a preset, such as toggle switches, drop-downs, and package-manager choices, intentionally do not advertise a preset key.
 
@@ -43,7 +43,7 @@ Export also copies a command to the clipboard that launches WinUtil with the sav
 
 You can also launch WinUtil with an exported config using this command:
 ```powershell
-& ([ScriptBlock]::Create((irm "https://christitus.com/win"))) -Config "C:\Path\To\Config.json"
+& ([ScriptBlock]::Create((irm "https://github.com/PDGamerSG/pd-winutil/releases/latest/download/winutil.ps1"))) -Config "C:\Path\To\Config.json"
 ```
 
 Repeated keys in an imported configuration select each entry only once. Unchecking an imported entry removes it from the selection, even if its key appeared more than once in the file.
@@ -59,7 +59,7 @@ Exported configurations contain the WinUtil catalog keys that existed when the f
 
 Older WinUtil versions exported a JSON object with `Install` package metadata and grouped `WPFInstall`, `WPFTweaks`, `WPFToggle`, and `WPFFeature` selections. When importing one of these legacy files, WinUtil restores the keys that still exist and skips retired keys, recording them as a warning in the WinUtil log. If the file contains no supported selections, the import makes no changes.
 
-To recover, compare the reported key with the current files in the [WinUtil configuration catalog](https://github.com/ChrisTitusTech/winutil/tree/main/config). Remove or replace the stale key in your JSON file, or create and export a new configuration with the current WinUtil version, then run the import again. Re-export long-lived baselines after catalog changes so they remain compatible.
+To recover, compare the reported key with the current files in the [WinUtil configuration catalog](https://github.com/PDGamerSG/pd-winutil/tree/main/config). Remove or replace the stale key in your JSON file, or create and export a new configuration with the current WinUtil version, then run the import again. Re-export long-lived baselines after catalog changes so they remain compatible.
 :::
 
 :::note

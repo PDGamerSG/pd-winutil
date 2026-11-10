@@ -126,6 +126,7 @@ If a check cannot be run, say exactly why and what residual risk remains. See SP
 
 ## 9. Generated Files And Git Hygiene
 
+- In this fork, edit `pd/README.template.md` and run `python pd/apply_branding.py` to update the generated root README. Keep `pd/` update automation and original upstream attribution intact when merging.
 - Treat local `winutil.ps1` changes as disposable compile output.
 - Never stage or commit `winutil.ps1`, `binary/`, or anything else ignored by the root `.gitignore` or `docs/.gitignore` — read those files rather than assuming. `docs/public/` is tracked source for static assets, not generated output.
 - `docs/src/assets/branding/title-screen.png` is a tracked generated asset. Do not edit it manually. Update `tools/title-screen/` or run the title-screen workflow.
