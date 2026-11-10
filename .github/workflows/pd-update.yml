@@ -1,0 +1,143 @@
+name: PD build and upstream sync
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+  schedule:
+    - cron: '17 3 * * *'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: pd-winutil-${{ github.event.pull_request.number || 'main' }}
+  cancel-in-progress: false
+
+jobs:
+  verify-and-release:
+    if: github.repository == 'PDGamerSG/pd-winutil'
+    runs-on: windows-latest
+    timeout-minutes: 35
+    permissions:
+      contents: write
+    env:
+      GH_TOKEN: ${{ github.token }}
+      GH_REPO: ${{ github.repository }}
+    steps:
+      - name: Check out complete source history
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python for maintenance tools
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Fetch upstream
+        shell: pwsh
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git remote add upstream https://github.com/ChrisTitusTech/winutil.git
+          if ($LASTEXITCODE -ne 0) { throw 'Could not configure upstream.' }
+          git fetch --no-tags upstream main:refs/remotes/upstream/main
+          if ($LASTEXITCODE -ne 0) { throw 'Could not fetch upstream.' }
+
+      - name: Prepare upstream merge and reapply PD branding
+        if: github.event_name != 'pull_request'
+        shell: pwsh
+        run: |
+          python pd/sync_upstream.py
+          if ($LASTEXITCODE -ne 0) { throw 'Upstream sync failed; main and the previous release are unchanged.' }
+
+      - name: Test branding and real Git merge behavior
+        shell: pwsh
+        run: |
+          python -m unittest discover -s pd/tests -v
+          if ($LASTEXITCODE -ne 0) { throw 'PD maintenance tests failed.' }
+          python pd/apply_branding.py --check
+          if ($LASTEXITCODE -ne 0) { throw 'PD branding has drifted.' }
+
+      - name: Compile and verify the PD release and WPF logo
+        shell: pwsh
+        run: |
+          ./Compile.ps1
+          pwsh -NoProfile -STA -File ./pd/Verify-PDWinUtil.ps1 -RenderLogo
+          if ($LASTEXITCODE -ne 0) { throw 'PD compiled artifact verification failed.' }
+
+      - name: Parse with Windows PowerShell 5.1
+        shell: powershell
+        run: ./pd/Verify-PDWinUtil.ps1
+
+      - name: Install the upstream test framework
+        shell: pwsh
+        run: |
+          Install-Module -Name Pester -RequiredVersion 5.8.0 -Repository PSGallery -Scope CurrentUser -Force -SkipPublisherCheck -AllowClobber
+          Import-Module Pester -RequiredVersion 5.8.0 -Force
+
+      - name: Run the upstream Windows regression suite
+        shell: pwsh
+        env:
+          TEMP: ${{ runner.temp }}
+        run: |
+          Import-Module Pester -RequiredVersion 5.8.0 -Force
+          Invoke-Pester -Path 'pester/*.Tests.ps1' -Output Normal -CI
+
+      - name: Package script, checksum, license and upstream provenance
+        shell: pwsh
+        run: |
+          $package = Join-Path $env:RUNNER_TEMP 'pd-release'
+          New-Item -Path $package -ItemType Directory -Force | Out-Null
+          Copy-Item winutil.ps1, LICENSE, pd/upstream.json -Destination $package
+          $hash = (Get-FileHash -LiteralPath winutil.ps1 -Algorithm SHA256).Hash.ToLowerInvariant()
+          "$hash  winutil.ps1" | Set-Content -LiteralPath (Join-Path $package 'winutil.ps1.sha256') -Encoding ascii
+
+      - name: Save verified build
+        uses: actions/upload-artifact@v4
+        with:
+          name: pd-winutil-${{ github.run_id }}
+          path: ${{ runner.temp }}/pd-release/*
+          retention-days: 14
+
+      - name: Push verified updates and publish a new release if needed
+        if: github.event_name != 'pull_request'
+        shell: pwsh
+        run: |
+          $pending = git status --porcelain
+          if ($pending) {
+            git add --all
+            if ($LASTEXITCODE -ne 0) { throw 'Could not stage verified upstream changes.' }
+            $upstream = (Get-Content pd/upstream.json -Raw | ConvertFrom-Json).commit
+            git commit -m "chore: sync WinUtil upstream ($($upstream.Substring(0, 8)))"
+            if ($LASTEXITCODE -ne 0) { throw 'Could not commit verified upstream changes.' }
+          }
+          $sourceCommit = (git rev-parse HEAD).Trim()
+          git push origin HEAD:refs/heads/main
+          if ($LASTEXITCODE -ne 0) { throw 'Main advanced or push failed; no release will be published. Retry against current main.' }
+          $latestCommit = gh release view --json targetCommitish --jq .targetCommitish 2>$null
+          if ($LASTEXITCODE -eq 0 -and $latestCommit -eq $sourceCommit) {
+            Write-Host 'The latest release already contains this verified source commit.'
+            exit 0
+          }
+          $tag = "pd-$env:GITHUB_RUN_NUMBER-$env:GITHUB_RUN_ATTEMPT"
+          $provenance = Get-Content pd/upstream.json -Raw | ConvertFrom-Json
+          $notes = @"
+          Pallab Das Windows Utility, based on [Chris Titus Tech's WinUtil](https://github.com/ChrisTitusTech/winutil).
+
+          Upstream commit: $($provenance.commit)
+          Tested source commit: $sourceCommit
+          Validation: PD maintenance tests, PowerShell compilation and syntax checks (PowerShell 7 and Windows PowerShell 5.1), WPF logo rendering, and upstream Pester tests.
+
+          Download winutil.ps1 to run this fork. winutil.ps1.sha256 contains its SHA-256 checksum. LICENSE preserves the original MIT notice; upstream.json records provenance. This build is unsigned.
+          "@
+          $notesPath = Join-Path $env:RUNNER_TEMP 'pd-release-notes.md'
+          $notes | Set-Content -LiteralPath $notesPath -Encoding utf8
+          $package = Join-Path $env:RUNNER_TEMP 'pd-release'
+          gh release create $tag "$package/winutil.ps1" "$package/winutil.ps1.sha256" "$package/LICENSE" "$package/upstream.json" --target $sourceCommit --title "Pallab Das Windows Utility ($tag)" --notes-file $notesPath --draft
+          if ($LASTEXITCODE -ne 0) { throw 'Release upload failed. The previous release remains available; retry this workflow.' }
+          gh release edit $tag --draft=false --latest
+          if ($LASTEXITCODE -ne 0) { throw 'The uploaded release is still a draft. Retry publication after checking the release assets.' }
