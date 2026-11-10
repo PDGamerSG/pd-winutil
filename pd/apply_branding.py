@@ -103,6 +103,14 @@ def apply(root, check=False):
         elif relative == "scripts/start.ps1":
             text = text.replace("Author         : Chris Titus @christitustech", "Maintainer     : Pallab Das @PDGamerSG\n    Upstream       : Chris Titus @christitustech (MIT)")
             text = text.replace("GitHub         : https://github.com/ChrisTitusTech", f"GitHub         : https://github.com/{REPOSITORY}")
+            license_text = (root / "LICENSE").read_text(encoding="utf-8").strip()
+            license_block = "    PD-LICENSE-BEGIN\n" + "\n".join("    " + line if line else "" for line in license_text.splitlines()) + "\n    PD-LICENSE-END\n"
+            if "    PD-LICENSE-BEGIN\n" in text:
+                text = replace_block(text, r"^    PD-LICENSE-BEGIN\n.*?^    PD-LICENSE-END\n", license_block, "license notice")
+            elif text.startswith("<#\n") and "#>" in text:
+                text = text.replace("#>", license_block + "#>", 1)
+            else:
+                raise ValueError("Upstream startup license header changed; review the branding policy.")
             text, count = re.subn(r'(\$Host\.UI\.RawUI\.WindowTitle = )"(?:WinUtil|Pallab Das Windows Utility)"', rf'\1"{PRODUCT}"', text)
             if count != 1:
                 raise ValueError("Upstream terminal title layout changed; review the branding policy.")

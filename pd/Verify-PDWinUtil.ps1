@@ -15,6 +15,13 @@ if ($parseErrors.Count -gt 0) {
 if ($source.Contains('#{replaceme}') -or $source.Contains('#{islocalcompile}')) {
     throw 'The compiler left an unexpanded startup placeholder.'
 }
+foreach ($notice in 'MIT License', 'Copyright (c) 2022 CT Tech Group LLC',
+    'Permission is hereby granted, free of charge',
+    'The above copyright notice and this permission notice shall be included in all') {
+    if (-not $source.Contains($notice)) {
+        throw "The standalone script is missing its original license notice: $notice"
+    }
+}
 $releaseUrl = 'https://github.com/PDGamerSG/pd-winutil/releases/latest/download/winutil.ps1'
 if (-not $source.Contains($releaseUrl)) {
     throw 'The compiled utility does not contain the PD release URL.'

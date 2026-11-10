@@ -75,6 +75,13 @@ class BrandingTests(unittest.TestCase):
         self.assertIn("@MyDrift-user", self.read("functions/private/Start-WinUtilUserInterface.ps1"))
         self.assertIn("Upstream", self.read("functions/private/Start-WinUtilUserInterface.ps1"))
 
+    def test_standalone_script_carries_the_original_license(self):
+        self.apply()
+        start = self.read("scripts/start.ps1")
+        header = start.split("#>", 1)[0]
+        for line in self.read("LICENSE").splitlines():
+            self.assertIn(line, header)
+
     def test_new_upstream_documentation_gets_the_fork_launch_command(self):
         self.write("docs/src/content/docs/guides/new.mdx", "Christ Tech Tips\nirm https://christitus.com/win | iex\n")
         self.apply()

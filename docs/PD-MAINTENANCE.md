@@ -5,6 +5,7 @@ This is an independent public fork of
 Pallab Das at [PDGamerSG/pd-winutil](https://github.com/PDGamerSG/pd-winutil).
 All upstream source, configuration, tests, documentation and Git history are
 copied. The original MIT notice and other third-party licenses remain intact.
+The complete original MIT license is also embedded in the standalone script's header.
 
 ## What is customized
 
