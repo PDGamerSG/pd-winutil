@@ -32,7 +32,16 @@ test the candidate before updating main or the latest release.
   merge, test, compile, record provenance and publish after success.
 - [x] Document operation and future integrations in `docs/PD-MAINTENANCE.md`,
   update the project contract, and retain the upstream README snapshot.
-- [ ] Compile and parse locally; run focused Pester tests where supported;
+- [x] Compile and parse locally; run focused Pester tests where supported;
   push to the authorized public fork and run Windows verification in Actions.
-- [ ] Publish the verified first release, confirm its download and schedule,
+- [x] Publish the verified first release, confirm its download and schedule,
   and report remaining platform limitations.
+
+## Verification record
+
+- Published release: https://github.com/PDGamerSG/pd-winutil/releases/tag/pd-2-1
+- Windows CI: https://github.com/PDGamerSG/pd-winutil/actions/runs/42913375015
+- Passed 1,168 upstream Pester tests and 15 PD maintenance tests.
+- Compiled artifact parsed with PowerShell 7 and Windows PowerShell 5.1; PD WPF logo rendered successfully.
+- Downloaded release checksum and original MIT notice verified. Daily workflow enabled; copied upstream maintenance workflows disabled.
+- Interactive system-changing Windows operations and the inherited documentation website were not manually exercised on the macOS host.
